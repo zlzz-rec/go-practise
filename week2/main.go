@@ -1,8 +1,8 @@
 package main
 
 import (
-	"feedcoin.one/darwin/errservice"
 	"fmt"
+	"homework/week2/errservice"
 )
 
 func main() {
