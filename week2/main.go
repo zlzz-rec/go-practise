@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"homework/week2/errservice"
+	"week2/errservice"
 )
 
 func main() {
