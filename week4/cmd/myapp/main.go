@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"week4/cmd/myapp/config"
-	"week4/internal/myapp"
+	"week4/internal/myapp/config"
+	"week4/internal/myapp/controller"
 	"week4/pkg/prometheus"
 )
 
@@ -11,16 +11,12 @@ func init() {
 	// 解析启动参数
 	config.Setup()
 
-	// 初始化数据库
-	//if err := mysql.CreateRepository(&mysql.Config{
-	//	HostAddress:   config.Opts.MysqlAddress,
-	//	Username:      config.Opts.MysqlUser,
-	//	Password:      config.Opts.MysqlPassword,
-	//	Database:      config.Opts.MysqlDatabase,
-	//	EnableLogging: config.Opts.Debug,
-	//}); err != nil {
-	//	panic(err)
-	//}
+	// 初始化资源
+	controllerManager, _, err := Setup();
+	if err != nil {
+		panic(err)
+	}
+	controller.ControllerManager = controllerManager
 }
 
 func main() {
@@ -30,8 +26,7 @@ func main() {
 		done <- prometheus.NewPrometheus(config.Opts.PromPort, stop)
 	}()
 	go func() {
-		appControllers, _,_ := initApp()
-		done <- myapp.NewApp(config.Opts.Port, appControllers, stop)
+		done <- controller.NewApp(config.Opts.Port, stop)
 	}()
 
 	var stopped bool

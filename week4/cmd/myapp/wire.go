@@ -6,13 +6,12 @@ package main
 
 import (
 	"github.com/google/wire"
-	"week4/internal/myapp"
 	"week4/internal/myapp/biz"
 	"week4/internal/myapp/controller"
 	"week4/internal/myapp/data"
 	"week4/internal/myapp/service"
 )
 
-func initApp() (myapp.AppControllers, func(), error) {
-	panic(wire.Build(myapp.NewAppControllers, controller.ProviderSet, service.ProviderSet, biz.ProviderSet, data.ProviderSet))
+func Setup() (controller.AllControllers, func(), error) {
+	panic(wire.Build(controller.NewControllerManager, controller.ProviderSet, service.ProviderSet, biz.ProviderSet, data.ProviderSet))
 }

@@ -2,7 +2,7 @@ package data
 
 import (
 	"fmt"
-	"week4/cmd/myapp/config"
+	config2 "week4/internal/myapp/config"
 	"week4/pkg/mysql"
 )
 
@@ -14,11 +14,11 @@ type Data struct {
 // NewData 创建data层持久化资源对象的方法
 func NewData() (Data, func(), error) {
 	orm, err := mysql.CreateRepository(&mysql.Config{
-		HostAddress:   config.Opts.MysqlAddress,
-		Username:      config.Opts.MysqlUser,
-		Password:      config.Opts.MysqlPassword,
-		Database:      config.Opts.MysqlDatabase,
-		EnableLogging: config.Opts.Debug,
+		HostAddress:   config2.Opts.MysqlAddress,
+		Username:      config2.Opts.MysqlUser,
+		Password:      config2.Opts.MysqlPassword,
+		Database:      config2.Opts.MysqlDatabase,
+		EnableLogging: config2.Opts.Debug,
 	})
 	if err != nil {
 		return Data{}, nil, err

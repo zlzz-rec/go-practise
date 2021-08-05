@@ -6,7 +6,6 @@
 package main
 
 import (
-	"week4/internal/myapp"
 	"week4/internal/myapp/biz"
 	"week4/internal/myapp/controller"
 	"week4/internal/myapp/data"
@@ -15,17 +14,17 @@ import (
 
 // Injectors from wire.go:
 
-func initApp() (myapp.AppControllers, func(), error) {
+func Setup() (controller.AllControllers, func(), error) {
 	dataData, cleanup, err := data.NewData()
 	if err != nil {
-		return myapp.AppControllers{}, nil, err
+		return controller.AllControllers{}, nil, err
 	}
 	helloRepo := data.NewHelloRepo(dataData)
 	helloBiz := biz.NewHelloBiz(helloRepo)
 	helloService := service.NewHelloService(helloBiz)
 	helloController := controller.NewHelloController(helloService)
-	appControllers := myapp.NewAppControllers(helloController)
-	return appControllers, func() {
+	allControllers := controller.NewControllerManager(helloController)
+	return allControllers, func() {
 		cleanup()
 	}, nil
 }

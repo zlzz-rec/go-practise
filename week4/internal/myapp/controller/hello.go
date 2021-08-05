@@ -14,10 +14,9 @@ func NewHelloController(helloService service.HelloService) HelloController{
 }
 
 func (c *HelloController)SayHello(ctx iris.Context) {
-	hello := c.helloService.SayHello()
 	_, _ = ctx.JSON(iris.Map{
 		"code":    0,
 		"message": "success",
-		"data":    hello,
+		"data":    c.helloService.SayHello(),
 	})
 }
