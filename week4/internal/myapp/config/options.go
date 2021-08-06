@@ -1,21 +1,25 @@
 package config
 
 import (
-	"log"
-
+	"fmt"
 	"github.com/spf13/viper"
 )
 
-var Opts = &Options{}
+var Opts *Options
 
-func Setup() {
+func SetupOnce() {
+	if Opts != nil {
+		return
+	} else {
+		Opts = &Options{}
+	}
 	err := viper.BindPFlags(ParseCommandLine())
 	if err != nil {
-		log.Panicf("parse command args error, %s", err)
+		panic(fmt.Sprintf("parse command args error, %s", err))
 	}
 	err = viper.Unmarshal(Opts)
 	if err != nil {
-		log.Panicf("marshal command args error, %s", err)
+		panic(fmt.Sprintf("marshal command args error, %s", err))
 	}
 }
 

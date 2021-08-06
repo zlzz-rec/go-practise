@@ -1,6 +1,6 @@
 package controller
 
-var ControllerManager = AllControllers{}
+var controllerManager *AllControllers
 
 type AllControllers struct {
 	HelloController HelloController
@@ -8,4 +8,16 @@ type AllControllers struct {
 
 func NewControllerManager(HelloController HelloController) AllControllers {
 	return AllControllers{HelloController: HelloController}
+}
+
+func SetControllerManagerOnce(allControllers *AllControllers) {
+	if controllerManager != nil {
+		return
+	}
+	controllerManager = allControllers
+	return
+}
+
+func GetControllerManager() *AllControllers {
+	return controllerManager
 }

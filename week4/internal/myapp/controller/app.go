@@ -11,7 +11,7 @@ func NewApp(port int, stop chan struct{}) error {
 	app := iris.New()
 	app.Use(recover.New())
 
-	app.Get("hello", ControllerManager.HelloController.SayHello)
+	app.Get("hello", GetControllerManager().HelloController.SayHello)
 
 	go func() {
 		<-stop

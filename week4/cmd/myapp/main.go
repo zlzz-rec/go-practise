@@ -9,14 +9,14 @@ import (
 
 func init() {
 	// 解析启动参数
-	config.Setup()
+	config.SetupOnce()
 
 	// 初始化资源
 	controllerManager, _, err := Setup();
 	if err != nil {
 		panic(err)
 	}
-	controller.ControllerManager = controllerManager
+	controller.SetControllerManagerOnce(&controllerManager)
 }
 
 func main() {
