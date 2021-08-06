@@ -28,6 +28,7 @@ type Options struct {
 	RedisAddress             string `mapstructure:"redis_address"`
 	RedisPassword            string `mapstructure:"redis_password"`
 	RedisDB                  int    `mapstructure:"redis_db"`
+	RedisAccessTimeout       int    `mapstructure:"redis_access_timeout"`
 	MysqlAddress             string `mapstructure:"mysql_address"`
 	MysqlUser                string `mapstructure:"mysql_user"`
 	MysqlPassword            string `mapstructure:"mysql_password"`
@@ -39,7 +40,6 @@ type Options struct {
 	MySQLAccessTimeout       int    `mapstructure:"mysql_access_timeout"`
 	Port                     int    `mapstructure:"port"`
 	PromPort                 int    `mapstructure:"prom_port"`
-	RedisAccessTimeout       int    `mapstructure:"redis_access_timeout"`
 	AccessControlAllowOrigin string `mapstructure:"access_control_allow_origin"`
 	UrlSecret                string `mapstructure:"url_secret"`
 	UrlSecretOn              bool   `mapstructure:"url_secret_on"`

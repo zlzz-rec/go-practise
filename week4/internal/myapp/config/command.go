@@ -28,6 +28,7 @@ func ParseCommandLine() *pflag.FlagSet {
 	// redis
 	pflag.String("redis_address", "", "redis_address")
 	pflag.String("redis_password", "", "redis_password")
+	pflag.Int("redis_db", 0, "redis_db")
 	pflag.Int("redis_access_timeout", 500, "redis_access_timeout")
 
 	pflag.Parse()
