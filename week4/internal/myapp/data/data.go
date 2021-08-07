@@ -2,7 +2,6 @@ package data
 
 import (
 	"fmt"
-	"time"
 	"week4/internal/myapp/config"
 	"week4/pkg/mysql"
 	"week4/pkg/redis"
@@ -29,11 +28,7 @@ func NewData() (Data, func(), error) {
 	}
 
 	// redis
-	maxIdleConnection := 50
-	idleTimeout := time.Duration(180) * time.Second
-	timeout := time.Duration(10) * time.Second
-	cfg := redis.NewConfig(maxIdleConnection, idleTimeout, timeout, timeout, timeout, config.Opts.RedisDB, config.Opts.RedisPassword)
-	normalServerTemplate := redis.NewNormalTemplate(config.Opts.RedisAddress, cfg)
+	normalServerTemplate := redis.NewNormalTemplate(config.Opts.RedisAddress, config.Opts.RedisPassword, config.Opts.RedisDB)
 	normalRedis := redis.NewRedisServer()
 	normalRedis.SetRedisTemplate(normalServerTemplate)
 

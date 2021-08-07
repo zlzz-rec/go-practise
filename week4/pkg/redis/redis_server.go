@@ -10,30 +10,6 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-type Config struct {
-	RedisMaxIdleConnection int
-	RedisIdleTimeout       time.Duration
-	RedisConnectTimeout    time.Duration
-	RedisReadTimeout       time.Duration
-	RedisWriteTimeout      time.Duration
-	RedisDatabase          int
-	Password               string
-}
-
-// NewConfig 初始化redis配置
-func NewConfig(maxIdleConnection int, idleTimeout time.Duration, connectTimeout time.Duration, readTimeout time.Duration, writeTimeout time.Duration, redisDB int, password string) *Config {
-
-	return &Config{
-		RedisMaxIdleConnection: maxIdleConnection,
-		RedisIdleTimeout:       idleTimeout,
-		RedisConnectTimeout:    connectTimeout,
-		RedisReadTimeout:       readTimeout,
-		RedisWriteTimeout:      writeTimeout,
-		RedisDatabase:          redisDB,
-		Password:               password,
-	}
-}
-
 // RedisTemplate 模板方法模式 server只要是实现RedisTemplate接口的type都可以传入
 //
 // 使用说明
@@ -1030,12 +1006,64 @@ func runScript(s *RedisServer, keyCount int, scriptStr string, args redis.Args) 
 	return script.Do(conn, args...)
 }
 
-func newPool(address, password string, maxIdleConnection int, db int, idleTimeout, connectTimeout, readTimeout, writeTimeout time.Duration) redis.Pool {
+type options struct {
+	redisMaxIdleConnection int
+	redisIdleTimeout       time.Duration
+	redisConnectTimeout    time.Duration
+	redisReadTimeout       time.Duration
+	redisWriteTimeout      time.Duration
+}
+
+type Option func(*options)
+
+var defaultOptions = options{
+	redisMaxIdleConnection: 50,
+	redisIdleTimeout:       time.Duration(180) * time.Second,
+	redisConnectTimeout:    time.Duration(10) * time.Second,
+	redisReadTimeout:       time.Duration(10) * time.Second,
+	redisWriteTimeout:      time.Duration(10) * time.Second,
+}
+
+func WithRedisMaxIdleConnection(redisMaxIdleConnection int) Option {
+	return func(o *options) {
+		o.redisMaxIdleConnection = redisMaxIdleConnection
+	}
+}
+
+func WithRedisIdleTimeout(redisIdleTimeout time.Duration) Option {
+	return func(o *options) {
+		o.redisIdleTimeout = redisIdleTimeout
+	}
+}
+
+func WithRedisConnectTimeout(redisConnectTimeout time.Duration) Option {
+	return func(o *options) {
+		o.redisConnectTimeout = redisConnectTimeout
+	}
+}
+
+func WithRedisReadTimeout(redisReadTimeout time.Duration) Option {
+	return func(o *options) {
+		o.redisReadTimeout = redisReadTimeout
+	}
+}
+
+func WithRedisWriteTimeout(redisWriteTimeout time.Duration) Option {
+	return func(o *options) {
+		o.redisWriteTimeout = redisWriteTimeout
+	}
+}
+
+func newPool(address string, password string, db int, opts ...Option) redis.Pool {
+	for _, opt := range opts {
+		opt(&defaultOptions)
+	}
+
 	return redis.Pool{
-		MaxIdle:     maxIdleConnection,
-		IdleTimeout: idleTimeout,
+		MaxIdle:     defaultOptions.redisMaxIdleConnection,
+		IdleTimeout: defaultOptions.redisIdleTimeout,
 		Dial: func() (redis.Conn, error) {
-			conn, err := newConn("tcp", address, password, db, connectTimeout, readTimeout, writeTimeout)
+			conn, err := newConn("tcp", address, password, db, defaultOptions.redisConnectTimeout, defaultOptions.redisReadTimeout, defaultOptions.redisWriteTimeout)
 			if err != nil {
 				return nil, err
 			}

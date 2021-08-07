@@ -8,10 +8,9 @@ type NormalTemplate struct {
 	pool redis.Pool
 }
 
-func NewNormalTemplate(url string, config *Config) *NormalTemplate {
+func NewNormalTemplate(url string, password string, database int, opts ...Option) *NormalTemplate {
 	s := &NormalTemplate{}
-	s.pool = newPool(url, config.Password, config.RedisMaxIdleConnection, config.RedisDatabase,
-		config.RedisIdleTimeout, config.RedisConnectTimeout, config.RedisReadTimeout, config.RedisWriteTimeout)
+	s.pool = newPool(url, password, database, opts...)
 	return s
 }
 
