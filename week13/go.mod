@@ -1,10 +1,11 @@
-module week4
+module week13
 
 go 1.15
 
 require (
 	github.com/Joker/jade v1.0.0 // indirect
 	github.com/Shopify/goreferrer v0.0.0-20210630161223-536fa16abd6f // indirect
+	github.com/Shopify/sarama v1.28.0
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/aymerick/raymond v2.0.2+incompatible // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
@@ -28,6 +29,7 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.15 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/onsi/gomega v1.14.0 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/ryanuber/columnize v2.1.2+incompatible // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
@@ -41,9 +43,11 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	gitlab.feedtoken.tech/ztouch/zglib v1.2.23 // indirect
+	gitlab.feedtoken.tech/ztouch/zglib v1.2.23
+	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/net v0.0.0-20210726213435-c6fcb2dbf985 // indirect
+	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
